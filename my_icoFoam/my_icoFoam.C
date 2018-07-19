@@ -29,10 +29,11 @@ Description
 
 \*---------------------------------------------------------------------------*/
 
-#include "fvCFD.H"
+#include "fvCFD.H"  //include：ファイルを取り込んでいる。""で囲まれている部分は今のフォルダのもの。
 #include "pisoControl.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+//プログラムの本体はmain関数。プログラムを起動するとmain関数中の文が順次実行される。
 
 int main(int argc, char *argv[])
 {
@@ -51,13 +52,13 @@ int main(int argc, char *argv[])
 
     while (runTime.loop())
     {
-        Info<< "Time = " << runTime.timeName() << nl << endl;
+        Info<< "Time = " << runTime.timeName() << nl << endl;//Time=〜と表示させる。
 
-        #include "CourantNo.H"
+        #include "CourantNo.H"//CourantNo.Hを取り込んでいる。
 
         // Momentum predictor
 
-        fvVectorMatrix UEqn
+        fvVectorMatrix UEqn//←これがどんな関数なのか知りたい。includeしたファイルを見てみる？
         (
             fvm::ddt(U)
           + fvm::div(phi, U)
