@@ -35,7 +35,7 @@ Description
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 //プログラムの本体はmain関数。プログラムを起動するとmain関数中の文が順次実行される。
 
-int main(int argc, char *argv[])
+int main(int argc, char *argv[])//argcには引数の個数・acgvには引数の実際の値が入る。
 {
     #include "setRootCase.H"
     #include "createTime.H"
