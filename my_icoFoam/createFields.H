@@ -1,3 +1,4 @@
+//.H形式のファイルはヘッダファイルと呼ばれる
 Info<< "Reading transportProperties\n" << endl;
 
 IOdictionary transportProperties
