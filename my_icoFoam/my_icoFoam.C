@@ -56,21 +56,27 @@ int main(int argc, char *argv[])//argcには引数の個数・acgvには引数�
 
         #include "CourantNo.H"//CourantNo.Hを取り込んでいる。
 
-        // Momentum predictor
+        // Momentum predictor（運動量予測）
 
-        fvVectorMatrix UEqn//←これがどんな関数なのか知りたい。includeしたファイルを見てみる？
+        fvVectorMatrix UEqn//fvVectorMatrixクラスからUEqnインスタンスを作成。
         (
-            fvm::ddt(U)
-          + fvm::div(phi, U)
-          - fvm::laplacian(nu, U)
+            fvm::ddt(U)//∂U/∂t
+          + fvm::div(phi, U)//div(UU)
+          - fvm::laplacian(nu, U)//∇^2(νU)
         );
 
         if (piso.momentumPredictor())
         {
-            solve(UEqn == -fvc::grad(p));
+            solve(UEqn == -fvc::grad(p));//UEqn=-∇(p)
         }
 
         // --- PISO loop
+        /*piso法の計算手順
+        1.運動方程式を解き、仮の速度を求める
+        2.圧力方程式を解き、圧力を求める
+        3.速度を更新する
+        4.圧力の計算および速度の更新を指定回数だけ繰り返す（通常は2回）*/
+
         while (piso.correct())
         {
             volScalarField rAU(1.0/UEqn.A());
@@ -82,15 +88,15 @@ int main(int argc, char *argv[])//argcには引数の個数・acgvには引数�
               + fvc::interpolate(rAU)*fvc::ddtCorr(U, phi)
             );
 
-            adjustPhi(phiHbyA, U, p);
+            adjustPhi(phiHbyA, U, p);//流速が成り行きで決まる境界の流束を、質量が保存するように調整。
 
-            // Update the pressure BCs to ensure flux consistency
+            // Update the pressure BCs to ensure flux consistency：流れの連続性を確実にするために圧力BCを更新する
             constrainPressure(p, U, phiHbyA, rAU);
 
-            // Non-orthogonal pressure corrector loop
+            // Non-orthogonal pressure corrector loop：非直行圧力補正ループ
             while (piso.correctNonOrthogonal())
             {
-                // Pressure corrector
+                // Pressure corrector：圧力補正
 
                 fvScalarMatrix pEqn
                 (

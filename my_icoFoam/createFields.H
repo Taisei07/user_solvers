@@ -13,7 +13,7 @@ IOdictionary transportProperties
     )
 );
 
-dimensionedScalar nu
+dimensionedScalar nu//動粘度nuをスカラーとして定義
 (
     "nu",
     dimViscosity,
@@ -21,7 +21,7 @@ dimensionedScalar nu
 );
 
 Info<< "Reading field p\n" << endl;
-volScalarField p
+volScalarField p//圧力pをスカラーとして定義
 (
     IOobject
     (
@@ -36,7 +36,7 @@ volScalarField p
 
 
 Info<< "Reading field U\n" << endl;
-volVectorField U
+volVectorField U//速度Uをベクトルとして定義
 (
     IOobject
     (
