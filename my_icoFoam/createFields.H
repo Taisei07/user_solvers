@@ -34,6 +34,20 @@ volScalarField p//圧力pをスカラーとして定義
     mesh
 );
 
+Info<< "Reading field V\n" << endl;//↓オリジナルで追加
+volScalarField V//電位Vをスカラーとして定義。
+(
+    IOobject
+    (
+        "V",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
 
 Info<< "Reading field U\n" << endl;
 volVectorField U//速度Uをベクトルとして定義
