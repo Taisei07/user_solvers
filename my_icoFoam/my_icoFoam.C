@@ -69,7 +69,7 @@ int main(int argc, char *argv[])//argcには引数の個数・acgvには引数�
             fvm::ddt(U)//∂U/∂t
           + fvm::div(phi, U)//div(UU)
           - fvm::laplacian(nu, U)//∇^2(νU)
-          == -fvm::div(q, V)//クーロン力の項を追加（オリジナル）
+          + fvm::div(q, V)//クーロン力の項を追加（オリジナル）
         );
 
         if (piso.momentumPredictor())
