@@ -61,8 +61,8 @@ int main(int argc, char *argv[])//argcには引数の個数・acgvには引数�
         fvScalarMatrix VEqn//fvScalarMatrixクラスからVEqnインスタンスを作成。*ラプラス方程式を用いて電位を求める
         (
             fvm::laplacian(V)
-            ==-q/epsilon
-        )
+            == -q/epsilon
+        );
 
         fvVectorMatrix UEqn//fvVectorMatrixクラスからUEqnインスタンスを作成。
         (
