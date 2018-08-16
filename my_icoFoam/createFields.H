@@ -76,7 +76,7 @@ volVectorField U//速度Uをベクトルとして定義
 );
 
 
-#include "createPhi.H"
+#include "createPhi.H"//phiは他のファイルから持ってきている
 
 
 label pRefCell = 0;
