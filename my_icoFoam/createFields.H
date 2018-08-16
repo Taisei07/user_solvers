@@ -20,6 +20,20 @@ dimensionedScalar nu//動粘度nuをスカラーとして定義
     transportProperties.lookup("nu")
 );
 
+dimensionedScalar q//電荷密度qをスカラーとして定義
+(
+    "q",
+    dimChargeDensity,
+    transportProperties.lookup("q")
+);
+
+dimensionedScalar epsilon//誘電率epsilonをスカラーとして定義
+(
+    "epsilon",
+    dimDielectricConstant,
+    transportProperties.lookup("epsilon")
+);
+
 Info<< "Reading field p\n" << endl;
 volScalarField p//圧力pをスカラーとして定義
 (

@@ -58,12 +58,18 @@ int main(int argc, char *argv[])//argcには引数の個数・acgvには引数�
 
         // Momentum predictor（運動量予測）
 
+        fvScalarMatrix VEqn//fvScalarMatrixクラスからVEqnインスタンスを作成。*ラプラス方程式を用いて電位を求める
+        (
+            fvm::laplacian(V)
+            ==-q/epsilon
+        )
+
         fvVectorMatrix UEqn//fvVectorMatrixクラスからUEqnインスタンスを作成。
         (
             fvm::ddt(U)//∂U/∂t
           + fvm::div(phi, U)//div(UU)
           - fvm::laplacian(nu, U)//∇^2(νU)
-          == Coulomb//クーロン力の項を追加（オリジナル）
+          == -fvm::div(q, V)//クーロン力の項を追加（オリジナル）
         );
 
         if (piso.momentumPredictor())
