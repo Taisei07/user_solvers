@@ -23,14 +23,12 @@ dimensionedScalar nu//動粘度nuをスカラーとして定義
 dimensionedScalar q//電荷密度qをスカラーとして定義
 (
     "q",
-    dimChargeDensity,
     transportProperties.lookup("q")
 );
 
 dimensionedScalar epsilon//誘電率epsilonをスカラーとして定義
 (
     "epsilon",
-    dimDielectricConstant,
     transportProperties.lookup("epsilon")
 );
 
