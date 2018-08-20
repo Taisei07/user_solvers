@@ -13,27 +13,27 @@ IOdictionary transportProperties
     )
 );
 
-dimensionedScalar nu//動粘度nuをスカラーとして定義
+dimensionedScalar nu//動粘度nu（定数）をスカラーとして定義
 (
     "nu",
     dimViscosity,
     transportProperties.lookup("nu")
 );
 
-dimensionedScalar q//電荷密度qをスカラーとして定義
+dimensionedScalar q//電荷密度q（定数）をスカラーとして定義
 (
     "q",
     transportProperties.lookup("q")
 );
 
-dimensionedScalar epsilon//誘電率epsilonをスカラーとして定義
+dimensionedScalar epsilon//誘電率epsilon（定数）をスカラーとして定義
 (
     "epsilon",
     transportProperties.lookup("epsilon")
 );
 
 Info<< "Reading field p\n" << endl;
-volScalarField p//圧力pをスカラーとして定義
+volScalarField p//圧力p（未知数）をスカラーとして定義
 (
     IOobject
     (
@@ -47,7 +47,7 @@ volScalarField p//圧力pをスカラーとして定義
 );
 
 Info<< "Reading field V\n" << endl;//↓オリジナルで追加
-volScalarField V//電位Vをスカラーとして定義。
+volScalarField V//電位V（未知数）をスカラーとして定義。
 (
     IOobject
     (
@@ -62,11 +62,25 @@ volScalarField V//電位Vをスカラーとして定義。
 
 
 Info<< "Reading field U\n" << endl;
-volVectorField U//速度Uをベクトルとして定義
+volVectorField U//速度U（未知数）をベクトルとして定義
 (
     IOobject
     (
         "U",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+Info<< "Reading field E\n" << endl;
+volVectorField E//電場E（未知数）をベクトルとして定義
+(
+    IOobject
+    (
+        "E",
         runTime.timeName(),
         mesh,
         IOobject::MUST_READ,

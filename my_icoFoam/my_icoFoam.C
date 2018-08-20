@@ -50,7 +50,7 @@ int main(int argc, char *argv[])//argcには引数の個数・acgvには引数�
 
     Info<< "\nStarting time loop\n" << endl;
 
-    while (runTime.loop())
+    while (runTime.loop())//"while":runTimeの限り繰り返し続ける
     {
         Info<< "Time = " << runTime.timeName() << nl << endl;//Time=〜と表示させる。
 
@@ -58,18 +58,32 @@ int main(int argc, char *argv[])//argcには引数の個数・acgvには引数�
 
         // Momentum predictor（運動量予測）
 
+        fvVectorMatrix EEqn//fvVectorMatrixクラスからEEqnインスタンスを作成。*ラプラス方程式を用いて電場を求める
+        (
+            fvm::laplacian(E)
+        );
+
+        if (piso.momentumPredictor())//"if":pisomomentumPredictorにいる間はGaussの法則を解く
+        {
+            solve(EEqn == -q/epsilon);
+        }
+
         fvScalarMatrix VEqn//fvScalarMatrixクラスからVEqnインスタンスを作成。*ラプラス方程式を用いて電位を求める
         (
             fvm::laplacian(V)
-            == -q/epsilon
         );
+
+        if (piso.momentumPredictor())//電場の式を解く
+        {
+            solve(VEqn == E);
+        }
 
         fvVectorMatrix UEqn//fvVectorMatrixクラスからUEqnインスタンスを作成。
         (
             fvm::ddt(U)//∂U/∂t
           + fvm::div(phi, U)//div(UU)
           - fvm::laplacian(nu, U)//∇^2(νU)
-          + fvm::div(q, V)//クーロン力の項を追加（オリジナル）
+          + q*E//クーロン力の項を追加（オリジナル）
         );
 
         if (piso.momentumPredictor())
