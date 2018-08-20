@@ -58,24 +58,14 @@ int main(int argc, char *argv[])//argcには引数の個数・acgvには引数�
 
         // Momentum predictor（運動量予測）
 
-        fvVectorMatrix EEqn//fvVectorMatrixクラスからEEqnインスタンスを作成。*ラプラス方程式を用いて電場を求める
-        (
-            fvm::laplacian(E)
-        );
-
-        if (piso.momentumPredictor())//"if":pisomomentumPredictorにいる間はGaussの法則を解く
-        {
-            solve(EEqn == -q/epsilon);
-        }
-
         fvScalarMatrix VEqn//fvScalarMatrixクラスからVEqnインスタンスを作成。*ラプラス方程式を用いて電位を求める
         (
             fvm::laplacian(V)
         );
 
-        if (piso.momentumPredictor())//電場の式を解く
+        if (piso.momentumPredictor())
         {
-            solve(VEqn == E);
+            solve(VEqn == -q/epsilon);
         }
 
         fvVectorMatrix UEqn//fvVectorMatrixクラスからUEqnインスタンスを作成。
