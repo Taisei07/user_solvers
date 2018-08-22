@@ -66,7 +66,16 @@ int main(int argc, char *argv[])//argcには引数の個数・acgvには引数�
         if (piso.momentumPredictor())
         {
             solve(VEqn == -q/epsilon);//電位を求める方程式
-            solve(E == -fvc::div(V));//電場を求める方程式
+        }
+
+        fvVectorMatrix EEqn//fvVectorMatrixクラスからEEqnインスタンスを作成。
+        (
+            fvm::div(E)//∇E
+        );
+
+        if (piso.momentumPredictor())
+        {
+            solve(EEqn == q / epsilon);//∇E=q/epsilonの方程式を解く
         }
 
         fvVectorMatrix UEqn//fvVectorMatrixクラスからUEqnインスタンスを作成。
